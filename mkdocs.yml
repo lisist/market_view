@@ -1,0 +1,22 @@
+site_name: My Docs
+
+theme:
+  name: material
+
+nav:
+  - US: 
+    - Employment: US\employment.md
+    - Consumption : US\consumption.md
+    - Inflation : US\inflation.md
+    - Business : US\business.md
+  
+  - Canada:
+    - Employment: Canada\employment.md
+    - Inflation : Canada\inflation.md
+    - Business : Canada\business.md
+
+  - Market: 
+    - Sentiment: Market Sentiments\sentiment.md
+    - Security Analysis: Market Sentiments\securities.md
+  
+  - Iran Conflict: theme\iran.md
