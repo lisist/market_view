@@ -25,6 +25,9 @@
 
 <iframe src="/charts/conspxmd.html" width="100%" height="400" frameborder="0"></iframe>
 
+<iframe src="/charts/nycnm1ir.html" width="100%" height="400" frameborder="0"></iframe>
+
 - 이란 전쟁 이후 유가 상승으로 인해 인플레이션 기대감 상승하는 모습
 
 <iframe src="/charts/usswit1.html" width="100%" height="400" frameborder="0"></iframe>
+

@@ -17,10 +17,8 @@ def oneline(sheet_name, reflist, start_date=None):
     fig.write_html("my-project/docs/charts/" + sheet_name + ".html", include_plotlyjs='cdn')
 
 
-def onebar(sheet_name, reflist, start_date=None):
+def onebar(sheet_name,reflist):
     data = pd.read_excel("my-project/data.xlsx", sheet_name=sheet_name, index_col="Date", parse_dates=True)
-    if start_date is not None:
-        data = data[data.index >= pd.Timestamp(start_date)]
     fig = px.bar(data,x=data.index,y=reflist[0],
     title=reflist[1],
     color=data[reflist[0]]<0,
@@ -30,12 +28,9 @@ def onebar(sheet_name, reflist, start_date=None):
 
     fig.write_html("my-project/docs/charts/" + sheet_name + ".html", include_plotlyjs='cdn')
 
-def twoline(sheet_name1, sheet_name2, reflist, same_axis=True, start_date=None):
+def twoline(sheet_name1,sheet_name2,reflist,same_axis=True):
     data1 = pd.read_excel("my-project/data.xlsx", sheet_name=sheet_name1, index_col="Date", parse_dates=True)
     data2 = pd.read_excel("my-project/data.xlsx", sheet_name=sheet_name2, index_col="Date", parse_dates=True)
-    if start_date is not None:
-        data1 = data1[data1.index >= pd.Timestamp(start_date)]
-        data2 = data2[data2.index >= pd.Timestamp(start_date)]
     
 
     if same_axis == True:
@@ -92,21 +87,25 @@ def twoline(sheet_name1, sheet_name2, reflist, same_axis=True, start_date=None):
 
     fig.write_html("my-project/docs/charts/" + sheet_name1 + ".html", include_plotlyjs='cdn')
 
-def twobar(sheet_name1,sheet_name2,reflist, start_date=None):
+def twobar(sheet_name1,sheet_name2,reflist):
     data1 = pd.read_excel("my-project/data.xlsx", sheet_name=sheet_name1, index_col="Date", parse_dates=True)
     data2 = pd.read_excel("my-project/data.xlsx", sheet_name=sheet_name2, index_col="Date", parse_dates=True)
 
-    if start_date is not None:
-        data1 = data1[data1.index >= pd.Timestamp(start_date)]
-        data2 = data2[data2.index >= pd.Timestamp(start_date)]
-
     fig = go.Figure(data=[
-        go.Bar(name=reflist[0][1],x=data1.index,y=data1[reflist[0][0]]),
-        go.Bar(name=reflist[1][1],x=data2.index,y=data2[reflist[1][0]]),
+        go.Bar(name='By_Iran',x=data1.index,y=data1['BY_IRAN']),
+        go.Bar(name='AGAINST_Iran',x=data2.index,y=data2['AGAINST_IRAN']),
     ])
 
     fig.update_layout(barmode='group', title=reflist[0][1]+" & "+reflist[1][1])
     fig.write_html("my-project/docs/charts/" + sheet_name1 + ".html", include_plotlyjs='cdn')
+
+    # fig = go.Figure(data[
+    #     go.Bar(name="BY_IRAN",x=data1.index),
+    #     # go.Bar(name="AGAINST_IRAN",x=data2.index, y=data2.values),
+    # ])
+    # fig.update_layout(barmode='group')
+    # fig.show()
+
 
 def table_bar(sheet_name, title):
     data = pd.read_excel("my-project/data.xlsx", sheet_name=sheet_name)
@@ -121,17 +120,17 @@ def table_bar(sheet_name, title):
 
 if __name__ == "__main__":
     oneline_dic = {}
-    oneline_dic["usurtot"] = ["usurtot index","Unemployment Rate","2020-01-01"]
+    oneline_dic["usurtot"] = ["usurtot index","Unemployment Rate","2022-01-01"]
     oneline_dic["concjobp"] = ["concjobp index","Consumer Confidence Job Plentyful"]
     oneline_dic['vix'] = ["vix index","Vix index"]
     oneline_dic['goldsilver'] = ["goldsilver index","Gold/Silver Ratio"]
-    oneline_dic['napmempl'] = ["napmempl index","ISM Manf. Employment","2020-01-01"]
+    oneline_dic['napmempl'] = ["napmempl index","ISM Manf. Employment"]
     oneline_dic['napmpmi'] = ["napmpmi index","ISM Manf. Index"]
     oneline_dic['napmpric'] = ["napmpric index","ISM Manf. Prices","2020-01-01"]
-    oneline_dic['napmnemp'] = ["napmnemp index","ISM Service Employment","2020-01-01"]
+    oneline_dic['napmnemp'] = ["napmnemp index","ISM Service Employment"]
     oneline_dic['napmnmi'] = ["napmnmi index","ISM Service Index"]
     oneline_dic['indduois'] = ["indduois index","Indeed Overall Job posting"]
-    oneline_dic['napmnprc'] = ["napmnprc index","ISM Service Prices","2020-01-01"]
+    oneline_dic['napmnprc'] = ["napmnprc index","ISM Service Prices","2020-01-"]
     oneline_dic['joltopen'] = ["joltopen index","US Job opening Rate%"]
     oneline_dic['chaltotl'] = ["chaltotl index","Challenger US Job cut announcements"]
     oneline_dic['sboitotl'] = ['sboitotl index',"NFIB Small Business optimism"]
@@ -152,7 +151,6 @@ if __name__ == "__main__":
     oneline_dic['spx_pe'] = ["spx index","S&P500 index PER (12M Fwd Blend)"]
     oneline_dic['chpmindx'] = ["chpmindx index","Chicago Business Barometer SA"]
     oneline_dic['concconf'] = ["concconf index","Conference Board Consumer Confidence"]
-    oneline_dic['nycnm1ir'] = ["nycnm1ir index","NY Fed 1Yr inflation expectation"]
 
     onebar_dic = {}
     onebar_dic['canlnetj'] = ['canlnetj index',"Canada Employment Change"]
@@ -165,13 +163,11 @@ if __name__ == "__main__":
     onebar_dic['trhetkct'] = ["trhetkct index","Hormuz Strait Number of Tankers and Transit Volume (East to West, 7d Total)"]
     onebar_dic['hpimmom%'] = ["hpimmom% index","US House Price index purchase only MoM%"]
     onebar_dic['cagdpmom'] = ["cagdpmom index","Canada GDP MoM"]
-    onebar_dic['cicrtot'] = ["cicrtot index","Consumer Credit Total Net Chg ($bn)"]
-    
 
 
     twoline_dic = {}
     twoline_dic['conspxme consp5me'] = [["conspxme index","Consumer Confi. 1Y inflatiion exp",True],["consp5me index","Consumer Confi. 5Y inflatiion exp",True]]
-    twoline_dic['trufusyy cpi_xyoy'] = [['trufusyy index',"Truflation YoY",True],['cpi xyoy index',"CPI Core YoY",False],"2024-01-01"]
+    twoline_dic['trufusyy cpi_xyoy'] = [['trufusyy index',"Truflation YoY",True],['cpi xyoy index',"CPI Core YoY",False]]
     twoline_dic['injcjc injcjc'] = [['injcjc index',"Initial Jobless",True],['injcsp index',"Continuing Claims",False]]
     twoline_dic['jltsquis jltsquis'] = [['jltsquis index',"JOLTS Job quits level",True],['jltslays index',"JOLTS Layoffs",False]]
     twoline_dic['conspxmd conspxmd'] = [['conspxmd index',"Umich 1Y inflation exp",True],['consp5md index',"Umich 5-10Y inflation exp",True]]
@@ -183,30 +179,29 @@ if __name__ == "__main__":
     twoline_dic['plymc295 plymc295'] = [['plymc295 index',"Prob. Dem. control senate after midterm",True],['plymc29e index',"Prob. Dem. control house after midterm",True]]
     twoline_dic['dfedgba dfedgba'] = [['dfedgba index',"Dallas Fed Manufacturing Outlook",True],['dsergbcc index',"Dallas Fed Service Outlook",True]]
     twoline_dic['spcs20y% spcs20y%'] = [['spcs20y% index',"Case-shiller 20city home price index YoY%",True],['spcsusay index',"US national home price YoY%",True]]
-    twoline_dic['cl1 cl5'] = [["cl1 comdty","WTI ($ per barrel)",True],["cl5 comdty","WTI far contract",True]]
 
     twobar_dic ={}
-    twobar_dic['dgnochng dgnochng'] = [["dgnochng index","Durable Goods New Order MoM"],['dgnoxtch index','Durable goods ex Transport MoM'],"2022-01-01"]
+    twobar_dic['h.iranconflict h.iranconflict'] = [['h.iranconflict',"Strike by Iran"],['h.iranconflict',"Strike into Iran"]]
+
 
     tablebar_dic = {}
     tablebar_dic['returns_regions'] = ['returns_region',"Returns by Region"]
     tablebar_dic['returns_assetclass'] = ['returns_assetclass',"Returns by Asset Class"]
 
     
-    for sheet_name, reflist in oneline_dic.items():
-        start_date = reflist[2] if len(reflist) > 2 else None
-        oneline(sheet_name, reflist, start_date=start_date)
+for sheet_name, reflist in oneline_dic.items():
+    start_date = reflist[2] if len(reflist) > 2 else None
+    oneline(sheet_name, reflist, start_date=start_date)
+
     
     for sheet_name, reflist in onebar_dic.items():
-        start_date = reflist[2] if len(reflist) > 2 else None
-        onebar(sheet_name, reflist, start_date=start_date)
+        onebar(sheet_name, reflist)
 
     for sheet_name, reflist in twoline_dic.items():
         sheet_name1 = sheet_name.split()[0]
         sheet_name2 = sheet_name.split()[1]
 
-        start_date = reflist[2] if len(reflist) > 2 else None
-        twoline(sheet_name1, sheet_name2, reflist, same_axis=reflist[1][2], start_date=start_date)
+        twoline(sheet_name1,sheet_name2,reflist,same_axis=reflist[1][2])
     
     for sheet_name, reflist in tablebar_dic.items():
         table_bar(sheet_name, reflist[1])
@@ -215,5 +210,8 @@ if __name__ == "__main__":
         sheetname1 = sheet_name.split()[0]
         sheetname2 = sheet_name.split()[1]
 
-        start_date = reflist[2] if len(reflist) > 2 else None
-        twobar(sheetname1,sheetname2,reflist, start_date=start_date)
+        twobar(sheetname1,sheetname2,reflist)
+
+
+
+
