@@ -20,3 +20,9 @@ nav:
     - Security Analysis: Market Sentiments\securities.md
   
   - Iran Conflict: theme\iran.md
+
+markdown_extensions:
+  - md_in_html
+
+extra_javascript:
+  - https://cdn.plot.ly/plotly-latest.min.js
